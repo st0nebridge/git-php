@@ -31,7 +31,7 @@ Usage
 ``` php
 <?php
 // create repo object
-$repo = new Cz\Git\GitRepository('/path/to/repo');
+$repo = new CzProject\GitPhp\GitRepository('/path/to/repo');
 
 // create a new file in repo
 $filename = $repo->getRepositoryPath() . '/readme.txt';
@@ -232,7 +232,7 @@ Custom methods
 You can create custom methods. For example:
 
 ``` php
-class OwnGitRepository extends \Cz\Git\GitRepository
+class OwnGitRepository extends \CzProject\GitPhp\GitRepository
 {
 	public function setRemoteBranches($name, array $branches)
 	{
