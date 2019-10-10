@@ -375,6 +375,25 @@
 		}
 
 
+        /**
+         * Perform a comparison between 2 commits - defaults to latest
+         * Returns a list of changed files
+         * git diff --name-only hash1 hash2
+         * @param $commitHash1
+         * @param $commitHash2
+         * @return NULL|string[]
+         * @throws GitException
+         */
+        public function diff($commitHash1, $commitHash2 = null)
+        {
+            if ($commitHash2 === null)
+                $commitHash2 = $this->getLastCommitId();
+
+            $output = $this->extractFromCommand("git diff --name-only {$commitHash1} {$commitHash2} 2>&1");
+            return $output;
+        }
+
+
 		/**
 		 * Returns last commit ID on current branch
 		 * `git log --pretty=format:"%H" -n 1`
@@ -409,6 +428,19 @@
 			$output = $this->extractFromCommand('git status --porcelain');
 			return !empty($output);
 		}
+
+
+        /**
+         * Exists remote changes?
+         * `git fetch --dry-run` + magic
+         * @return bool
+         * @throws GitException
+         */
+        public function hasRemoteChanges()
+        {
+            $output = $this->extractFromCommand('git fetch --dry-run 2>&1');
+            return !empty($output);
+        }
 
 
 		/**
